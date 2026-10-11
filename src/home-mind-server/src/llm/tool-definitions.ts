@@ -151,7 +151,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     "Recherche sur le Web des informations récentes ou des sources en ligne. " +
     "Utilise cet outil pour les actualités, les informations actuelles, " +
     "les versions récentes, les prix et les questions nécessitant des sources Web.",
-  input_schema: {
+  parameters: {
     type: "object",
     properties: {
       query: {
