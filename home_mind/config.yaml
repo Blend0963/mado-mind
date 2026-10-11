@@ -1,11 +1,11 @@
 ---
 name: Home Mind
-version: "0.19.1"
+version: "0.20.0"
 slug: home_mind
 description: >-
-  AI assistant with cognitive memory for Home Assistant. Remembers your
-  corrections, preferences and sensor baselines across conversations.
-url: https://github.com/hoornet/home-mind
+  Assistant for Home Assistant with persistent memory and an optional read-only
+  Sentinel that records selected sensor changes and can send alerts.
+url: https://github.com/Blend0963/mado-mind
 arch:
   - amd64
 init: false
@@ -31,19 +31,23 @@ ports_description:
     internal network only.
 watchdog: http://[HOST]:[PORT:3100]/api/health
 options:
-  llm_provider: anthropic
-  anthropic_api_key: ""
+  llm_provider: mistral
+  mistral_api_key: ""
   log_level: info
   conversation_storage: sqlite
   memory_token_limit: 3000
   memory_cleanup_interval_hours: 6
+  sentinel_enabled: false
+  sentinel_entities: ""
+  sentinel_interval_seconds: 60
+  sentinel_notify_service: ""
   stt_provider: none
   tts_provider: none
   tts_model: tts-1
   tts_voice: alloy
 schema:
   # LLM provider
-  llm_provider: list(anthropic|openai|ollama)
+  llm_provider: list(mistral|anthropic|openai|ollama)
   llm_model: str?
   anthropic_api_key: password?
   openai_api_key: password?
@@ -77,6 +81,11 @@ schema:
   tts_base_url: str?
   tts_model: str?
   tts_voice: str?
+  # Sentinel — read-only monitoring; no device control
+  sentinel_enabled: bool
+  sentinel_entities: str?
+  sentinel_interval_seconds: int(30,300)
+  sentinel_notify_service: str?
   # API access
   api_token: password?
   cors_origins: str?

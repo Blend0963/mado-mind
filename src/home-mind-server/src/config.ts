@@ -7,8 +7,8 @@ const ConfigSchema = z
     logLevel: z.enum(["debug", "info", "warn", "error"]).default("info"),
 
     // LLM
-    llmProvider: z.enum(["anthropic", "openai", "ollama"]).default("anthropic"),
-    llmModel: z.string().default("claude-haiku-4-5-20251001"),
+    llmProvider: z.enum(["mistral", "anthropic", "openai", "ollama"]).default("mistral"),
+    llmModel: z.string().default("mistral-small-latest"),
     anthropicApiKey: z.string().optional(),
     // OpenAI-compatible `reasoning_effort`. Thinking models (Gemini 3, GPT-5)
     // count it against the output cap, so voice turns want it low.
@@ -78,6 +78,12 @@ const ConfigSchema = z
       .transform((v) => v !== "false")
       .default("true"),
 
+    // Home Mind Sentinel (read-only monitoring)
+    sentinelEnabled: z.string().transform((v) => v === "true").default("false"),
+    sentinelEntities: z.string().default(""),
+    sentinelIntervalSeconds: z.coerce.number().int().min(30).max(300).default(60),
+    sentinelNotifyService: z.string().optional(),
+
     // App / API access
     corsOrigins: z.string().optional(), // Comma-separated origins, e.g. "http://localhost:5173,https://app.example.com"
     apiToken: z.string().optional(), // Bearer token for API auth (when unset, no auth enforced)
@@ -96,6 +102,9 @@ const ConfigSchema = z
     ttsVoice: z.string().default("alloy"),
   })
   .superRefine((data, ctx) => {
+    if (data.llmProvider === "mistral" && !data.mistralApiKey) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "MISTRAL_API_KEY is required when LLM_PROVIDER is mistral", path: ["mistralApiKey"] });
+    }
     if (data.llmProvider === "anthropic" && !data.anthropicApiKey) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -149,6 +158,10 @@ export function loadConfig(): Config {
     layoutFromExposed: emptyToUndefined(process.env.LAYOUT_FROM_EXPOSED),
     toolsFromExposed: emptyToUndefined(process.env.TOOLS_FROM_EXPOSED),
     corsOrigins: emptyToUndefined(process.env.CORS_ORIGINS),
+    sentinelEnabled: emptyToUndefined(process.env.SENTINEL_ENABLED),
+    sentinelEntities: emptyToUndefined(process.env.SENTINEL_ENTITIES),
+    sentinelIntervalSeconds: emptyToUndefined(process.env.SENTINEL_INTERVAL_SECONDS),
+    sentinelNotifyService: emptyToUndefined(process.env.SENTINEL_NOTIFY_SERVICE),
     apiToken: emptyToUndefined(process.env.API_TOKEN),
     sttProvider: emptyToUndefined(process.env.STT_PROVIDER),
     sttApiKey: emptyToUndefined(process.env.STT_API_KEY),

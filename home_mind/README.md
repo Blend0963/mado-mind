@@ -1,10 +1,9 @@
-# Home Mind add-on
+# Home Mind
 
-Runs the Home Mind API server and the Shodh Memory backend as a single Home
-Assistant add-on, so no separate Docker host is needed.
+Assistant for Home Assistant with persistent memory and an optional household Sentinel.
 
-- No long-lived access token — Home Assistant is reached through the Supervisor proxy
-- Configuration in the add-on UI instead of a `.env` file
-- Memory and conversation history live in `/data` and are included in Home Assistant backups
+- Uses Home Assistant's Supervisor proxy by default; no long-lived token is needed for the local instance.
+- Keeps memory and conversation data in `/data`, included in Home Assistant backups.
+- The optional Sentinel observes only configured entities, keeps a local event journal, and can send rate-limited notifications. It does not control devices.
 
 See [DOCS.md](DOCS.md) for installation and configuration.

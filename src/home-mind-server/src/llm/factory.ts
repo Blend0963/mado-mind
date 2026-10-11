@@ -20,6 +20,11 @@ export function createChatEngine(
   topology: TopologyScanner
 ): IChatEngine {
   switch (config.llmProvider) {
+    case "mistral":
+      return new OpenAIChatEngine(
+        { ...config, openaiApiKey: config.mistralApiKey!, openaiBaseUrl: "https://api.mistral.ai/v1" },
+        memory, conversations, extractor, ha, scanner, topology
+      );
     case "openai":
       return new OpenAIChatEngine(config, memory, conversations, extractor, ha, scanner, topology);
     case "ollama":
@@ -43,6 +48,11 @@ export function createChatEngine(
 
 export function createFactExtractor(config: Config): IFactExtractor {
   switch (config.llmProvider) {
+    case "mistral":
+      return new OpenAIFactExtractor(
+        config.mistralApiKey!, config.llmModel, "https://api.mistral.ai/v1",
+        config.openaiResponseFormat, config.openaiMaxTokens, config.reasoningEffort
+      );
     case "openai":
       return new OpenAIFactExtractor(
         config.openaiApiKey!,
