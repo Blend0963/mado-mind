@@ -46,7 +46,8 @@ Finally set Home Mind as the conversation agent under
 |---|---|
 | `llm_provider` | `mistral` (recommended default), `anthropic`, `openai`, or `ollama` for local inference. |
 | `llm_model` | Model name. Default: `mistral-small-latest`. Ollama needs an explicit model. |
-| `mistral_api_key` | Required for `mistral`. Create a key at [console.mistral.ai](https://console.mistral.ai/). |\n| `anthropic_api_key` | Required only when using `anthropic`. From [console.anthropic.com](https://console.anthropic.com/). |
+| `mistral_api_key` | Required for `mistral`. Create a key at [console.mistral.ai](https://console.mistral.ai/). |
+| `anthropic_api_key` | Required only when using `anthropic`. From [console.anthropic.com](https://console.anthropic.com/). |
 | `openai_api_key` | Required for `openai`. |
 | `openai_base_url` | Override for OpenAI-compatible endpoints. |
 | `openai_max_tokens` | Response cap for OpenAI. |
