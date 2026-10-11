@@ -145,6 +145,24 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
       required: ["query"],
     },
   },
+{
+  name: "web_search",
+  description:
+    "Recherche sur le Web des informations récentes ou des sources en ligne. " +
+    "Utilise cet outil pour les actualités, les informations actuelles, " +
+    "les versions récentes, les prix et les questions nécessitant des sources Web.",
+  input_schema: {
+    type: "object",
+    properties: {
+      query: {
+        type: "string",
+        description: "Question précise ou termes à rechercher sur le Web.",
+      },
+    },
+    required: ["query"],
+  },
+},
+
 ];
 
 export function toAnthropicTools(tools: ToolDefinition[]): Anthropic.Tool[] {
