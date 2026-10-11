@@ -1,8 +1,6 @@
 # Home Mind
 
-AI assistant with cognitive memory for Home Assistant. This add-on runs the two
-back-end services — the Home Mind API server and the Shodh Memory store — in a
-single container, so you do not need a separate Docker host.
+Home Mind is a Home Assistant assistant with persistent memory and an optional read-only Sentinel. The add-on runs the API server and Shodh Memory in one container.
 
 The conversation agent itself is a custom integration installed through HACS.
 The add-on replaces only the `docker compose` half of the standard install.
@@ -11,7 +9,7 @@ The add-on replaces only the `docker compose` half of the standard install.
 
 1. Add this repository to Home Assistant:
    **Settings → Add-ons → Add-on store → ⋮ → Repositories**, then paste
-   `https://github.com/hoornet/home-mind`.
+   `https://github.com/Blend0963/mado-mind`.
 2. Install the **Home Mind** add-on. The first build takes several minutes —
    the server is compiled from source on your machine.
 3. Open the **Configuration** tab, pick your LLM provider and paste its API key.
@@ -96,6 +94,19 @@ long-lived access token is needed**.
 
 Set `ha_url` and `ha_token` only to control a *different* Home Assistant.
 `ha_skip_tls_verify` allows self-signed certificates on that instance.
+
+## Sentinel (optional)
+
+The Sentinel is disabled by default. To enable it, open the add-on configuration and set:
+
+| Option | Description |
+|---|---|
+| `sentinel_enabled` | Enables periodic observation. Defaults to off. |
+| `sentinel_entities` | Comma-separated Home Assistant entity IDs to observe, such as `binary_sensor.front_door,sensor.living_room_temperature`. Only entities Home Mind is allowed to see can be monitored. |
+| `sentinel_interval_seconds` | Polling interval, from 30 to 300 seconds (default 60). |
+| `sentinel_notify_service` | Optional notification service, e.g. `notify.mobile_app_phone`. Leave blank to record events without notifications. |
+
+The first poll establishes a baseline. Later state changes are appended to `/data/sentinel-events.jsonl`, which is included in add-on backups. Notifications are limited to one per entity every 15 minutes. The Sentinel does not control devices. With API authentication enabled, inspect `GET /api/sentinel/status` and `GET /api/sentinel/events?limit=50` to view its status and recent journal entries.
 
 ## Data and ports
 
