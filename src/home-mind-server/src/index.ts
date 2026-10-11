@@ -20,6 +20,7 @@ import { createRouter } from "./api/routes.js";
 import { createSttService } from "./stt/stt-service.js";
 import { createTtsService } from "./tts/tts-service.js";
 import { MemoryCleanupJob } from "./jobs/memory-cleanup.js";
+import { HomeMindSentinel } from "./sentinel/sentinel.js";
 
 // Load configuration
 const config = loadConfig();
@@ -137,12 +138,32 @@ app.use((req, res, next) => {
 // Mount API routes
 app.use("/api", createRouter(llm, memory, "shodh", version, config.customPrompt, conversations, stt ?? undefined, tts ?? undefined));
 
+// Optional, read-only monitoring. The Sentinel only calls an explicitly configured notify service.
+const sentinel = new HomeMindSentinel(ha, {
+  enabled: config.sentinelEnabled,
+  entities: config.sentinelEntities.split(",").map((id) => id.trim()).filter(Boolean),
+  intervalSeconds: config.sentinelIntervalSeconds,
+  journalPath: "/data/sentinel-events.jsonl",
+  notifyService: config.sentinelNotifyService,
+});
+app.get("/api/sentinel/status", (_req, res) => res.json(sentinel.status()));
+app.get("/api/sentinel/events", async (req, res) => {
+  try {
+    const parsed = Number(req.query.limit ?? 50);
+    const limit = Number.isFinite(parsed) ? parsed : 50;
+    res.json({ events: await sentinel.recentEvents(limit) });
+  } catch (error) {
+    res.status(500).json({ error: error instanceof Error ? error.message : "Could not read Sentinel journal" });
+  }
+});
+sentinel.start();
+
 // Root endpoint
 app.get("/", (_req, res) => {
   res.json({
     name: "Home Mind Server",
     version,
-    description: "Home Assistant AI with cognitive memory for voice integration",
+    description: "Home assistant with persistent memory and an optional read-only household Sentinel",
     memoryBackend: "shodh",
     conversationStorage: config.conversationStorage,
     endpoints: {
@@ -180,6 +201,7 @@ cleanupJob.start();
 process.on("SIGTERM", () => {
   console.log("Shutting down...");
   cleanupJob.stop();
+  sentinel.stop();
   conversations.close();
   memory.close();
   process.exit(0);
