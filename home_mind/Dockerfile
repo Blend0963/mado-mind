@@ -9,7 +9,7 @@ FROM ${SHODH_IMAGE} AS shodh
 # Build the server from this fork, not the upstream Home Mind release.
 # The add-on build context is only this directory, so fetch the matching fork ref.
 FROM node:20-bookworm-slim AS builder
-ARG MADO_MIND_REF=fix/mistral-web-search
+ARG MADO_MIND_REF=main
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates git python3 make g++ \
     && rm -rf /var/lib/apt/lists/*
