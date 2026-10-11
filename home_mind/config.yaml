@@ -31,8 +31,8 @@ ports_description:
     internal network only.
 watchdog: http://[HOST]:[PORT:3100]/api/health
 options:
-  llm_provider: anthropic
-  anthropic_api_key: ""
+  llm_provider: mistral
+  mistral_api_key: ""
   log_level: info
   conversation_storage: sqlite
   memory_token_limit: 3000
@@ -47,7 +47,7 @@ options:
   tts_voice: alloy
 schema:
   # LLM provider
-  llm_provider: list(anthropic|openai|ollama)
+  llm_provider: list(mistral|anthropic|openai|ollama)
   llm_model: str?
   anthropic_api_key: password?
   openai_api_key: password?
