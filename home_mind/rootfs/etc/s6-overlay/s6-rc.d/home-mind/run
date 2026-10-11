@@ -30,6 +30,10 @@ export_bool() {
 
 # Fail before the wait below, so a missing key is reported straight away.
 case "$(bashio::config 'llm_provider')" in
+    mistral)
+        bashio::config.require 'mistral_api_key' \
+            "The Mistral provider needs an API key from https://console.mistral.ai/"
+        ;;
     anthropic)
         bashio::config.require 'anthropic_api_key' \
             "The Anthropic provider needs an API key from https://console.anthropic.com/"
