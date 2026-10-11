@@ -48,11 +48,9 @@ function getApiKey(): string {
 }
 
 function getModel(): string {
-  return (
-    process.env.MISTRAL_WEB_SEARCH_MODEL ??
-    process.env.LLM_MODEL ??
-    "mistral-small-latest"
-  );
+  // The main chat model may belong to another provider (for example Claude).
+  // Use a dedicated Mistral model unless explicitly configured otherwise.
+  return process.env.MISTRAL_WEB_SEARCH_MODEL || "mistral-small-latest";
 }
 
 function extractOutputs(
