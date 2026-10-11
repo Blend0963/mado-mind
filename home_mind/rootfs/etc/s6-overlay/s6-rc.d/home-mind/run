@@ -76,6 +76,8 @@ export LLM_PROVIDER="$(bashio::config 'llm_provider')"
 export CONVERSATION_STORAGE="$(bashio::config 'conversation_storage')"
 export MEMORY_TOKEN_LIMIT="$(bashio::config 'memory_token_limit')"
 export MEMORY_CLEANUP_INTERVAL_HOURS="$(bashio::config 'memory_cleanup_interval_hours')"
+export SENTINEL_ENABLED="$(bashio::config 'sentinel_enabled')"
+export SENTINEL_INTERVAL_SECONDS="$(bashio::config 'sentinel_interval_seconds')"
 export STT_PROVIDER="$(bashio::config 'stt_provider')"
 export TTS_PROVIDER="$(bashio::config 'tts_provider')"
 
@@ -88,6 +90,8 @@ export_option 'openai_base_url' 'OPENAI_BASE_URL'
 export_option 'openai_max_tokens' 'OPENAI_MAX_TOKENS'
 export_option 'ollama_base_url' 'OLLAMA_BASE_URL'
 export_option 'custom_prompt' 'CUSTOM_PROMPT'
+export_option 'sentinel_entities' 'SENTINEL_ENTITIES'
+export_option 'sentinel_notify_service' 'SENTINEL_NOTIFY_SERVICE'
 export_option 'max_output_tokens' 'MAX_OUTPUT_TOKENS'
 export_option 'device_overrides' 'DEVICE_OVERRIDES'
 export_bool 'layout_from_exposed' 'LAYOUT_FROM_EXPOSED'
