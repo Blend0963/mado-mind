@@ -210,6 +210,7 @@ process.on("SIGTERM", () => {
 process.on("SIGINT", () => {
   console.log("Shutting down...");
   cleanupJob.stop();
+  sentinel.stop();
   conversations.close();
   memory.close();
   process.exit(0);
