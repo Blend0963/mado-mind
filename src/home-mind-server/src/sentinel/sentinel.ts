@@ -32,8 +32,8 @@ export class HomeMindSentinel {
   start(): void {
     if (!this.options.enabled || this.timer) return;
     console.log(`Sentinelle: active, ${this.options.entities.length} entité(s), intervalle ${this.options.intervalSeconds}s`);
-    void this.poll(true);
-    this.timer = setInterval(() => void this.poll(false), this.options.intervalSeconds * 1000);
+    void this.poll();
+    this.timer = setInterval(() => void this.poll(), this.options.intervalSeconds * 1000);
   }
 
   stop(): void {
@@ -65,7 +65,7 @@ export class HomeMindSentinel {
     }
   }
 
-  private async poll(initial: boolean): Promise<void> {
+  private async poll(): Promise<void> {
     if (this.running) return;
     this.running = true;
     try {
