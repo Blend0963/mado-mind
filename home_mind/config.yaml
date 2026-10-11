@@ -1,6 +1,6 @@
 ---
 name: Home Mind
-version: "0.19.0"
+version: "0.19.1"
 slug: home_mind
 description: >-
   AI assistant with cognitive memory for Home Assistant. Remembers your
@@ -47,6 +47,8 @@ schema:
   llm_model: str?
   anthropic_api_key: password?
   openai_api_key: password?
+  mistral_api_key: password?
+  mistral_web_search_model: str?
   openai_base_url: str?
   openai_max_tokens: int(1,)?
   ollama_base_url: str?
