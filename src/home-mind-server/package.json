@@ -1,7 +1,7 @@
 {
   "name": "@home-mind/server",
   "version": "0.19.1",
-  "description": "Home Mind API server - AI assistant with cognitive memory for Home Assistant",
+  "description": "Home Mind assistant and read-only household Sentinel for Home Assistant",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -40,10 +40,9 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "author": "Jure Sršen <44338+hoornet@users.noreply.github.com>",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hoornet/home-mind.git"
+    "url": "https://github.com/Blend0963/mado-mind.git"
   }
 }
