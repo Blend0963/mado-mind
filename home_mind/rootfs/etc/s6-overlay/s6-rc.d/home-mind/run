@@ -82,6 +82,8 @@ export TTS_PROVIDER="$(bashio::config 'tts_provider')"
 export_option 'llm_model' 'LLM_MODEL'
 export_option 'anthropic_api_key' 'ANTHROPIC_API_KEY'
 export_option 'openai_api_key' 'OPENAI_API_KEY'
+export_option 'mistral_api_key' 'MISTRAL_API_KEY'
+export_option 'mistral_web_search_model' 'MISTRAL_WEB_SEARCH_MODEL'
 export_option 'openai_base_url' 'OPENAI_BASE_URL'
 export_option 'openai_max_tokens' 'OPENAI_MAX_TOKENS'
 export_option 'ollama_base_url' 'OLLAMA_BASE_URL'
