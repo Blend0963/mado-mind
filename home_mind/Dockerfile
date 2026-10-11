@@ -6,17 +6,18 @@ ARG SHODH_IMAGE=varunshodh/shodh-memory:0.2.0
 # embedding/NER models. Taken from the same image docker-compose.yml uses.
 FROM ${SHODH_IMAGE} AS shodh
 
-# Build the Home Mind server from a pinned upstream tag. The add-on build
-# context is the add-on folder, so the source is fetched rather than copied.
+# Build the server from this fork, not the upstream Home Mind release.
+# The add-on build context is only this directory, so fetch the matching fork ref.
 FROM node:20-bookworm-slim AS builder
-# Upstream tag the server is built from. Bump with `version` in config.yaml.
-ARG HOME_MIND_REF=v0.19.0
+ARG MADO_MIND_REF=main
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates curl python3 make g++ \
+    && apt-get install -y --no-install-recommends ca-certificates git python3 make g++ \
     && rm -rf /var/lib/apt/lists/*
+RUN git clone --depth 1 --branch "${MADO_MIND_REF}" https://github.com/Blend0963/mado-mind.git /tmp/mado-mind \
+    && mkdir -p /opt/home-mind \
+    && cp -a /tmp/mado-mind/src/home-mind-server/. /opt/home-mind/ \
+    && rm -rf /tmp/mado-mind
 WORKDIR /opt/home-mind
-RUN curl -fsSL "https://codeload.github.com/hoornet/home-mind/tar.gz/refs/tags/${HOME_MIND_REF}" \
-    | tar -xz --strip-components=3 "home-mind-${HOME_MIND_REF#v}/src/home-mind-server"
 RUN npm ci \
     && npm run build \
     && npm prune --omit=dev \

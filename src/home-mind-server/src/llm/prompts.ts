@@ -10,6 +10,10 @@ const SYSTEM_INSTRUCTIONS = `
 
 ## WHEN TO USE TOOLS vs ANSWER DIRECTLY
 
+**USE `web_search` FOR WEB RESEARCH:**
+- Current events, recent news, current prices, newly released versions, and questions explicitly asking you to search the Web or provide online sources → call `web_search` before answering.
+- Use the returned answer and source URLs; do not claim to have searched if the tool was not called.
+
 **ANSWER DIRECTLY (no tools needed):**
 - Time, date, day of week → Just answer
 - General knowledge questions → Just answer
@@ -124,6 +128,10 @@ If the user asks about something — energy, solar production, weather, security
 const VOICE_INSTRUCTIONS = `
 
 ## WHEN TO USE TOOLS vs ANSWER DIRECTLY
+
+**USE `web_search` FOR WEB RESEARCH:**
+- Current events, recent news, current prices, newly released versions, and questions explicitly asking you to search the Web or provide online sources → call `web_search` before answering.
+- Use the returned answer and source URLs; do not claim to have searched if the tool was not called.
 
 **ANSWER DIRECTLY (no tools needed):**
 - Time, date, day of week → Just answer

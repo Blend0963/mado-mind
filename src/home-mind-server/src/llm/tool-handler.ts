@@ -113,10 +113,12 @@ export async function handleToolCall(
       case "web_search": {
         const query = input.query;
         if (typeof query !== "string" || !query.trim()) {
-          return {
-            error: "Une requête de recherche Web non vide est nécessaire.",
-          };
+          result = { error: "Une requête de recherche Web non vide est nécessaire." };
+          break;
         }
+        result = await searchMistralWeb(query);
+        break;
+      }
 
       case "get_state":
         result = await ha.getState(input.entity_id as string);

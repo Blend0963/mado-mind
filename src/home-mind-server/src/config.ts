@@ -14,6 +14,7 @@ const ConfigSchema = z
     // count it against the output cap, so voice turns want it low.
     reasoningEffort: z.enum(["none", "minimal", "low", "medium", "high"]).optional(),
     openaiApiKey: z.string().optional(),
+    mistralApiKey: z.string().optional(),
     openaiBaseUrl: z.string().url().optional(),
 
     // OpenAI fact-extractor tuning (applies only to OpenAIFactExtractor — chat
@@ -126,6 +127,7 @@ export function loadConfig(): Config {
     anthropicApiKey: emptyToUndefined(process.env.ANTHROPIC_API_KEY),
     reasoningEffort: emptyToUndefined(process.env.REASONING_EFFORT),
     openaiApiKey: emptyToUndefined(process.env.OPENAI_API_KEY),
+    mistralApiKey: emptyToUndefined(process.env.MISTRAL_API_KEY),
     openaiBaseUrl: emptyToUndefined(process.env.OPENAI_BASE_URL),
     openaiResponseFormat: emptyToUndefined(process.env.OPENAI_RESPONSE_FORMAT),
     openaiMaxTokens: emptyToUndefined(process.env.OPENAI_MAX_TOKENS),
