@@ -1,6 +1,6 @@
 ---
 name: Home Mind
-version: "0.19.1"
+version: "0.20.0"
 slug: home_mind
 description: >-
   Assistant for Home Assistant with persistent memory and an optional read-only
