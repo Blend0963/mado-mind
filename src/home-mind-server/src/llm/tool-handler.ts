@@ -1,3 +1,4 @@
+import { searchMistralWeb } from "./mistral-web-search.js";
 import type { HomeAssistantClient } from "../ha/client.js";
 import { summarizeHistory } from "./history-summary.js";
 import type { IMemoryStore } from "../memory/interface.js";
