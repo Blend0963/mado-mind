@@ -111,27 +111,12 @@ export async function handleToolCall(
     switch (toolName) {
 
       case "web_search": {
-        const query = args.query;
-
+        const query = input.query;
         if (typeof query !== "string" || !query.trim()) {
           return {
             error: "Une requête de recherche Web non vide est nécessaire.",
           };
         }
-
-        try {
-          return await searchMistralWeb(query);
-        } catch (error) {
-          const message =
-            error instanceof Error ? error.message : String(error);
-
-          console.error(`[web_search] ${message}`);
-
-          return {
-            error: `La recherche Web a échoué : ${message}`,
-          };
-        }
-      }
 
       case "get_state":
         result = await ha.getState(input.entity_id as string);
