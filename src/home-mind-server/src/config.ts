@@ -7,8 +7,8 @@ const ConfigSchema = z
     logLevel: z.enum(["debug", "info", "warn", "error"]).default("info"),
 
     // LLM
-    llmProvider: z.enum(["anthropic", "openai", "ollama"]).default("anthropic"),
-    llmModel: z.string().default("claude-haiku-4-5-20251001"),
+    llmProvider: z.enum(["mistral", "anthropic", "openai", "ollama"]).default("mistral"),
+    llmModel: z.string().default("mistral-small-latest"),
     anthropicApiKey: z.string().optional(),
     // OpenAI-compatible `reasoning_effort`. Thinking models (Gemini 3, GPT-5)
     // count it against the output cap, so voice turns want it low.
@@ -102,6 +102,9 @@ const ConfigSchema = z
     ttsVoice: z.string().default("alloy"),
   })
   .superRefine((data, ctx) => {
+    if (data.llmProvider === "mistral" && !data.mistralApiKey) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "MISTRAL_API_KEY is required when LLM_PROVIDER is mistral", path: ["mistralApiKey"] });
+    }
     if (data.llmProvider === "anthropic" && !data.anthropicApiKey) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
