@@ -13,7 +13,7 @@ ARG MADO_MIND_REF=main
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates git python3 make g++ \
     && rm -rf /var/lib/apt/lists/*
-RUN git clone --depth 1 --branch "${MADO_MIND_REF}" https://github.com/Blend0963/mado-mind.git /tmp/mado-mind \
+RUN git clone --depth 1 --single-branch --no-tags --branch "${MADO_MIND_REF}" https://github.com/Blend0963/mado-mind.git /tmp/mado-mind \
     && mkdir -p /opt/home-mind \
     && cp -a /tmp/mado-mind/src/home-mind-server/. /opt/home-mind/ \
     && rm -rf /tmp/mado-mind
